@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  /* Blue surface palette */
+  --blue-25: #F7F8F9;
+  --blue-50: #F2F4F4;
+  --blue-100: #E5E8EA;
+  --blue-200: #CCD2D5;
+  --blue-300: #B2BBC0;
+  --blue-400: #99A5AB;
+  --blue-500: #596C77;
+  --blue-600: #405662;
+  --blue-700: #2B4351;
+  --blue-800: #1A3442;
+  --blue-900: #0D2838;
+  --blue-950: #001D2D;
+
+  /* Gold primary palette */
+  --gold-25: #F9F5EF;
+  --gold-50: #F2EBDF;
+  --gold-100: #ECE1CF;
+  --gold-200: #E5D7BF;
+  --gold-300: #D9C39F;
+  --gold-400: #CCAF7F;
+  --gold-500: #BF9B5F;
+  --gold-600: #A37F41;
+  --gold-700: #7B5F31;
+  --gold-800: #523F21;
+  --gold-900: #292010;
+
+  /* Semantic - surfaces (blue) */
+  --bg-primary: #001D2D;
+  --bg-secondary: #0D2838;
+  --bg-tertiary: #1A3442;
+  --bg-elevated: #1A3442;
+
+  /* Semantic - primary interaction (gold) */
+  --primary: #BF9B5F;
+  --primary-light: #D9C39F;
+  --primary-dark: #A37F41;
+
+  /* System colors */
+  --ios-red: #FF3B30;
+  --ios-orange: #FF9500;
+  --ios-green: #34C759;
+
+  /* Text */
+  --text-primary: #FFFFFF;
+  --text-secondary: #99A5AB;
+  --text-tertiary: #596C77;
+
+  /* Separator */
+  --separator: rgba(255, 255, 255, 0.08);
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-battalion-400: var(--blue-400);
+  --color-battalion-500: var(--blue-500);
+  --color-battalion-600: var(--blue-600);
+  --color-battalion-700: var(--blue-700);
+  --color-battalion-800: var(--blue-800);
+  --color-battalion-900: var(--blue-900);
+  --color-battalion-950: var(--blue-950);
+  --color-ios-red: var(--ios-red);
+  --color-ios-orange: var(--ios-orange);
+  --color-ios-green: var(--ios-green);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-separator: var(--separator);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+body {
+  background: #000000;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+/* iOS-style scrollbar hidden */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area support */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
