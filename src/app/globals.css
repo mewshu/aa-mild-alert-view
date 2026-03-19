@@ -2,42 +2,42 @@
 
 :root {
   /* Blue surface palette */
-  --blue-25: #F7F8F9;
-  --blue-50: #F2F4F4;
-  --blue-100: #E5E8EA;
-  --blue-200: #CCD2D5;
-  --blue-300: #B2BBC0;
-  --blue-400: #99A5AB;
-  --blue-500: #596C77;
-  --blue-600: #405662;
-  --blue-700: #2B4351;
-  --blue-800: #1A3442;
-  --blue-900: #0D2838;
-  --blue-950: #001D2D;
+  --blue-25: #EBF0F7;
+  --blue-50: #D6E1EE;
+  --blue-100: #B8CBDE;
+  --blue-200: #8AABC8;
+  --blue-300: #6088AD;
+  --blue-400: #436A92;
+  --blue-500: #2D4F74;
+  --blue-600: #1F3A5C;
+  --blue-700: #152D4A;
+  --blue-800: #0C1F38;
+  --blue-900: #061428;
+  --blue-950: #020B18;
 
   /* Gold primary palette */
-  --gold-25: #F9F5EF;
-  --gold-50: #F2EBDF;
-  --gold-100: #ECE1CF;
-  --gold-200: #E5D7BF;
-  --gold-300: #D9C39F;
-  --gold-400: #CCAF7F;
-  --gold-500: #BF9B5F;
-  --gold-600: #A37F41;
-  --gold-700: #7B5F31;
-  --gold-800: #523F21;
-  --gold-900: #292010;
+  --gold-25: #FCFBF8;
+  --gold-50: #F8F5EF;
+  --gold-100: #F1ECE2;
+  --gold-200: #E8E1D3;
+  --gold-300: #DED5C3;
+  --gold-400: #D3C8B2;
+  --gold-500: #C7B99E;
+  --gold-600: #A99D85;
+  --gold-700: #837A66;
+  --gold-800: #5D5647;
+  --gold-900: #372F28;
 
   /* Semantic - surfaces (blue) */
-  --bg-primary: #001D2D;
-  --bg-secondary: #0D2838;
-  --bg-tertiary: #1A3442;
-  --bg-elevated: #1A3442;
+  --bg-primary: #020B18;
+  --bg-secondary: #061428;
+  --bg-tertiary: #0C1F38;
+  --bg-elevated: #0C1F38;
 
   /* Semantic - primary interaction (gold) */
-  --primary: #BF9B5F;
-  --primary-light: #D9C39F;
-  --primary-dark: #A37F41;
+  --primary: #C7B99E;
+  --primary-light: #DED5C3;
+  --primary-dark: #A99D85;
 
   /* System colors */
   --ios-red: #FF3B30;
@@ -46,8 +46,8 @@
 
   /* Text */
   --text-primary: #FFFFFF;
-  --text-secondary: #99A5AB;
-  --text-tertiary: #596C77;
+  --text-secondary: #7E95AC;
+  --text-tertiary: #3D5873;
 
   /* Separator */
   --separator: rgba(255, 255, 255, 0.08);
