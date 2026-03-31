@@ -17,6 +17,7 @@ import {
   Radio,
   Pencil,
 } from "lucide-react";
+import GoldParallaxButton from "./GoldParallaxButton";
 
 export type AlertDetailData = {
   id: string;
@@ -261,10 +262,7 @@ export default function AlertDetail({
         {/* Directions card */}
         <div className="px-4 pb-3">
           <div className="bg-bg-secondary rounded-2xl overflow-hidden">
-            <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gold-600 active:bg-gold-700 transition-colors">
-              <Navigation size={18} strokeWidth={2} className="text-gold-300" />
-              <span className="text-[15px] font-semibold text-background">Get Directions</span>
-            </button>
+            <GoldParallaxButton />
             <div className="flex divide-x divide-separator">
               <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 active:bg-gold-500/20 transition-colors">
                 <Navigation size={14} strokeWidth={2} className="text-gold-500" />
