@@ -9,6 +9,8 @@ export default function GoldParallaxButton() {
   const [gradientPos, setGradientPos] = useState(50);
   const [orientationActive, setOrientationActive] = useState(false);
   const permissionAttempted = useRef(false);
+  const targetPos = useRef(50);
+  const animFrame = useRef<number>(0);
 
   // Request orientation permission on tap (iOS Safari requires user gesture)
   const requestOrientationPermission = useCallback(async () => {
@@ -16,52 +18,71 @@ export default function GoldParallaxButton() {
     permissionAttempted.current = true;
 
     try {
-      // Always try calling requestPermission — iOS Safari needs it
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = await (DeviceOrientationEvent as any).requestPermission();
-      if (result === "granted") {
+      if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+        const result = await (DeviceOrientationEvent as any).requestPermission();
+        if (result === "granted") {
+          setOrientationActive(true);
+        }
+      } else {
+        // No requestPermission (Capacitor WKWebView or non-iOS) — just activate
         setOrientationActive(true);
       }
     } catch {
-      // requestPermission doesn't exist (non-iOS) or failed — just activate
+      // requestPermission failed — just activate and hope events fire
       setOrientationActive(true);
     }
   }, []);
 
-  // On non-iOS devices, try activating immediately
+  // Request orientation permission and activate on mount
   useEffect(() => {
-    // If we get an orientation event without requesting, we're on a non-iOS device
-    function probe(e: DeviceOrientationEvent) {
-      if (e.gamma !== null) {
-        setOrientationActive(true);
+    async function activate() {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+          // In Capacitor WKWebView this can succeed without a user gesture
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (DeviceOrientationEvent as any).requestPermission();
+        }
+      } catch {
+        // Permission denied or not available — still try listening
       }
-      window.removeEventListener("deviceorientation", probe);
+      permissionAttempted.current = true;
+      setOrientationActive(true);
     }
-    window.addEventListener("deviceorientation", probe);
-    // Clean up after 1s if no event fires (desktop with no sensor)
-    const timer = setTimeout(() => {
-      window.removeEventListener("deviceorientation", probe);
-    }, 1000);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("deviceorientation", probe);
-    };
+    activate();
   }, []);
 
-  // Listen to device orientation once active
+  // Listen to device orientation once active — update target, not state directly
   useEffect(() => {
     if (!orientationActive) return;
 
     function handleOrientation(e: DeviceOrientationEvent) {
       const gamma = e.gamma ?? 0;
+      // Reduced sensitivity: map ±45° to a narrower range around center
       const clamped = Math.max(-45, Math.min(45, gamma));
-      const pos = ((clamped + 45) / 90) * 100;
-      setGradientPos(pos);
+      targetPos.current = 100 - ((clamped + 45) / 90) * 100;
     }
 
     window.addEventListener("deviceorientation", handleOrientation);
     return () => window.removeEventListener("deviceorientation", handleOrientation);
   }, [orientationActive]);
+
+  // Smooth animation loop — lerp toward target
+  useEffect(() => {
+    let current = gradientPos;
+    const lerp = 0.25; // higher = snappier response
+
+    function tick() {
+      current += (targetPos.current - current) * lerp;
+      setGradientPos(current);
+      animFrame.current = requestAnimationFrame(tick);
+    }
+
+    animFrame.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrame.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Mouse movement for desktop fallback
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -69,24 +90,23 @@ export default function GoldParallaxButton() {
     if (!btn) return;
     const rect = btn.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    const pos = (x / rect.width) * 100;
-    setGradientPos(Math.max(0, Math.min(100, pos)));
+    targetPos.current = Math.max(0, Math.min(100, (x / rect.width) * 100));
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setGradientPos(50);
+    targetPos.current = 50;
   }, []);
 
   const highlightCenter = gradientPos;
   const gradient = `linear-gradient(
     110deg,
-    #837A66 ${highlightCenter - 60}%,
-    #A99D85 ${highlightCenter - 30}%,
-    #D3C8B2 ${highlightCenter - 10}%,
-    #F1ECE2 ${highlightCenter}%,
-    #D3C8B2 ${highlightCenter + 10}%,
-    #A99D85 ${highlightCenter + 30}%,
-    #837A66 ${highlightCenter + 60}%
+    #6B5D45 ${highlightCenter - 60}%,
+    #8B7355 ${highlightCenter - 30}%,
+    #C4A265 ${highlightCenter - 10}%,
+    #D4B478 ${highlightCenter}%,
+    #C4A265 ${highlightCenter + 10}%,
+    #8B7355 ${highlightCenter + 30}%,
+    #6B5D45 ${highlightCenter + 60}%
   )`;
 
   return (
@@ -95,12 +115,12 @@ export default function GoldParallaxButton() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={() => { hapticMedium(); requestOrientationPermission(); }}
-      className="w-full flex items-center justify-center gap-2 px-4 py-3 active:brightness-90 transition-[filter] duration-100"
+      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl active:brightness-90 transition-[filter] duration-100"
       style={{ background: gradient }}
     >
-      <Navigation size={18} strokeWidth={2} className="text-gold-800/70" />
-      <span className="text-[15px] font-semibold text-background drop-shadow-[0_1px_1px_rgba(0,0,0,0.15)]">
-        Get Directions
+      <Navigation size={18} strokeWidth={2} className="text-white/70" />
+      <span className="text-[15px] font-semibold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">
+        Navigate
       </span>
     </button>
   );
