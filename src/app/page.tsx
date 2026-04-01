@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, Search, SquarePen, MessageSquare } from "lucide-react";
 import TabBar from "@/components/TabBar";
 import AlertDetail, { type AlertDetailData } from "@/components/AlertDetail";
+import { hapticLight } from "@/lib/haptics";
 
 type Alert = {
   id: string;
@@ -576,7 +577,7 @@ function AlertRow({ alert, onTap }: { alert: Alert; onTap: () => void }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ type: "spring", stiffness: 500, damping: 35 }}
-      onClick={onTap}
+      onClick={() => { hapticLight(); onTap(); }}
       className="w-full px-4 py-3 flex items-start gap-3 active:bg-white/5 transition-colors text-left"
     >
       <div className="mt-1.5">
@@ -619,7 +620,7 @@ function AgencySection({
   return (
     <div className="overflow-hidden">
       <button
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => { hapticLight(); setExpanded(!expanded); }}
         className="w-full flex items-center gap-3 px-4 py-3 active:bg-white/5 transition-colors"
       >
         <motion.div

@@ -18,6 +18,7 @@ import {
   Pencil,
 } from "lucide-react";
 import GoldParallaxButton from "./GoldParallaxButton";
+import { hapticLight, hapticMedium, hapticWarning } from "@/lib/haptics";
 
 export type AlertDetailData = {
   id: string;
@@ -133,6 +134,11 @@ export default function AlertDetail({
   const [cprActive, setCprActive] = useState(false);
 
   function handleStepAction(action: string, label: string, statusOverride?: string) {
+    if (action === "decline" || action === "cancel") {
+      hapticWarning();
+    } else {
+      hapticMedium();
+    }
     const displayLabel = statusOverride || label;
     setStatusLabel(displayLabel);
     if (action === "advance") {
@@ -185,7 +191,7 @@ export default function AlertDetail({
       {/* Navigation bar */}
       <div className="flex items-center gap-1 px-2 pb-2">
         <button
-          onClick={onBack}
+          onClick={() => { hapticLight(); onBack(); }}
           className="flex items-center gap-0.5 text-gold-500 active:text-gold-600 transition-colors px-2 py-2 -ml-1"
         >
           <ChevronLeft size={20} strokeWidth={2} />
@@ -264,11 +270,11 @@ export default function AlertDetail({
           <div className="bg-bg-secondary rounded-2xl overflow-hidden">
             <GoldParallaxButton />
             <div className="flex divide-x divide-separator">
-              <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 active:bg-gold-500/20 transition-colors">
+              <button onClick={hapticLight} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 active:bg-gold-500/20 transition-colors">
                 <Navigation size={14} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[13px] text-gold-500 font-medium">Alternate Location 1</span>
               </button>
-              <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 active:bg-gold-500/20 transition-colors">
+              <button onClick={hapticLight} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 active:bg-gold-500/20 transition-colors">
                 <Navigation size={14} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[13px] text-gold-500 font-medium">Staging</span>
               </button>
@@ -279,7 +285,7 @@ export default function AlertDetail({
         {/* Response + Chat row */}
         <div className="px-4 pb-3">
           <div className="bg-bg-secondary rounded-2xl overflow-hidden divide-y divide-separator">
-            <button className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
+            <button onClick={hapticLight} className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
               <div className="flex items-center gap-3 flex-1">
                 <Radio size={18} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[15px] text-white font-medium">Response</span>
@@ -290,14 +296,14 @@ export default function AlertDetail({
               </span>
               <ChevronRight size={16} strokeWidth={2} className="text-text-tertiary" />
             </button>
-            <button className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
+            <button onClick={hapticLight} className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
               <div className="flex items-center gap-3 flex-1">
                 <MessageSquare size={18} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[15px] text-white font-medium">Alert Chat</span>
               </div>
               <ChevronRight size={16} strokeWidth={2} className="text-text-tertiary" />
             </button>
-            <button className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
+            <button onClick={hapticLight} className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
               <div className="flex items-center gap-3 flex-1">
                 <FileText size={18} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[15px] text-white font-medium">Log</span>
@@ -346,6 +352,7 @@ export default function AlertDetail({
               {alert.nearestMarkers.map((marker) => (
                 <button
                   key={marker.name}
+                  onClick={hapticLight}
                   className="w-full flex items-center gap-3 px-4 py-3 active:bg-white/5 transition-colors"
                 >
                   <MarkerDot color={marker.color} />

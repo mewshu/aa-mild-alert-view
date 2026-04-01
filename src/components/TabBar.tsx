@@ -1,6 +1,7 @@
 "use client";
 
 import { Bell, Users, Map, MessageSquare, Settings } from "lucide-react";
+import { hapticLight } from "@/lib/haptics";
 
 type Tab = {
   id: string;
@@ -48,6 +49,7 @@ export default function TabBar({ activeTab }: { activeTab: string }) {
             return (
               <button
                 key={tab.id}
+                onClick={hapticLight}
                 className="flex flex-col items-center gap-0.5 min-w-[64px] py-1"
               >
                 <div className="relative">

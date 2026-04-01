@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Navigation } from "lucide-react";
+import { hapticMedium } from "@/lib/haptics";
 
 export default function GoldParallaxButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -93,7 +94,7 @@ export default function GoldParallaxButton() {
       ref={buttonRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={requestOrientationPermission}
+      onClick={() => { hapticMedium(); requestOrientationPermission(); }}
       className="w-full flex items-center justify-center gap-2 px-4 py-3 active:brightness-90 transition-[filter] duration-100"
       style={{ background: gradient }}
     >
