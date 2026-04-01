@@ -185,11 +185,8 @@ export default function AlertDetail({
       transition={{ type: "spring", stiffness: 400, damping: 35 }}
       className="absolute inset-0 z-40 bg-background flex flex-col h-screen"
     >
-      {/* Status bar spacer */}
-      <div className="h-5 safe-area-top" />
-
       {/* Navigation bar */}
-      <div className="flex items-center gap-1 px-2 pb-2">
+      <div className="flex items-center gap-1 px-2 pb-2 pt-[env(safe-area-inset-top,20px)]">
         <button
           onClick={() => { onBack(); }}
           className="flex items-center gap-0.5 text-gold-500 active:text-gold-600 transition-colors px-2 py-2 -ml-1"

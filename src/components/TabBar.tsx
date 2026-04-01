@@ -42,7 +42,7 @@ const tabs: Tab[] = [
 export default function TabBar({ activeTab }: { activeTab: string }) {
   return (
     <div className="fixed bottom-0 w-[390px] z-50">
-      <div className="bg-bg-secondary/80 backdrop-blur-2xl border-t border-separator safe-area-bottom">
+      <div className="bg-bg-secondary/80 backdrop-blur-2xl border-t border-separator pb-[env(safe-area-inset-bottom,0px)]">
         <div className="flex items-center justify-around pt-2 pb-1">
           {tabs.map((tab) => {
             const isActive = tab.id === activeTab;

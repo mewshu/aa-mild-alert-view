@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Quantico } from "next/font/google";
 import "./globals.css";
+
+const quantico = Quantico({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Alerts — Redesign Prototype",
@@ -17,7 +23,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
-  themeColor: "#020B18",
+  themeColor: "#090C04",
 };
 
 export default function RootLayout({
@@ -27,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className="antialiased min-h-screen bg-black flex items-start justify-center">
+      <body className={`${quantico.className} antialiased min-h-screen bg-black flex items-start justify-center`}>
         <div className="w-[390px] min-h-screen bg-background relative overflow-x-hidden shadow-2xl shadow-black/50 border-x border-white/5">
           {children}
         </div>
