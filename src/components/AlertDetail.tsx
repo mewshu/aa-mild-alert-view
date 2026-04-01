@@ -134,7 +134,7 @@ export default function AlertDetail({
   const [cprActive, setCprActive] = useState(false);
 
   function handleStepAction(action: string, label: string, statusOverride?: string) {
-    if (action === "decline" || action === "cancel") {
+    if (action === "decline" || action === "cancel" || action === "clear") {
       hapticWarning();
     } else {
       hapticMedium();
@@ -191,7 +191,7 @@ export default function AlertDetail({
       {/* Navigation bar */}
       <div className="flex items-center gap-1 px-2 pb-2">
         <button
-          onClick={() => { hapticLight(); onBack(); }}
+          onClick={() => { onBack(); }}
           className="flex items-center gap-0.5 text-gold-500 active:text-gold-600 transition-colors px-2 py-2 -ml-1"
         >
           <ChevronLeft size={20} strokeWidth={2} />
@@ -296,14 +296,14 @@ export default function AlertDetail({
               </span>
               <ChevronRight size={16} strokeWidth={2} className="text-text-tertiary" />
             </button>
-            <button onClick={hapticLight} className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
+            <button className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
               <div className="flex items-center gap-3 flex-1">
                 <MessageSquare size={18} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[15px] text-white font-medium">Alert Chat</span>
               </div>
               <ChevronRight size={16} strokeWidth={2} className="text-text-tertiary" />
             </button>
-            <button onClick={hapticLight} className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
+            <button className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
               <div className="flex items-center gap-3 flex-1">
                 <FileText size={18} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[15px] text-white font-medium">Log</span>

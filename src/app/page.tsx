@@ -577,7 +577,7 @@ function AlertRow({ alert, onTap }: { alert: Alert; onTap: () => void }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ type: "spring", stiffness: 500, damping: 35 }}
-      onClick={() => { hapticLight(); onTap(); }}
+      onClick={onTap}
       className="w-full px-4 py-3 flex items-start gap-3 active:bg-white/5 transition-colors text-left"
     >
       <div className="mt-1.5">
