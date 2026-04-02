@@ -2,12 +2,12 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Alerts — Redesign Prototype",
+  title: "Blue Base — Redesign Prototype",
   description: "SwiftUI-style web prototype",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Alerts",
+    title: "Blue Base",
   },
 };
 

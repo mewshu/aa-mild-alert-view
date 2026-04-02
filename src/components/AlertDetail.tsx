@@ -195,7 +195,7 @@ export default function AlertDetail({
           className="flex items-center gap-0.5 text-gold-500 active:text-gold-600 transition-colors px-2 py-2 -ml-1"
         >
           <ChevronLeft size={20} strokeWidth={2} />
-          <span className="text-[15px]">Alerts</span>
+          <span className="text-[15px]">Blue Base</span>
         </button>
         <div className="flex-1" />
       </div>

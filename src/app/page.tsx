@@ -680,7 +680,7 @@ export default function AlertsPage() {
       {/* Navigation bar */}
       <div className="flex items-center justify-between px-4 pb-2">
         <div className="w-10" />
-        <h1 className="text-[17px] font-semibold text-white">Alerts</h1>
+        <h1 className="text-[17px] font-semibold text-white">Blue Base</h1>
         <button className="w-10 h-10 flex items-center justify-center text-gold-500">
           <SquarePen size={22} strokeWidth={1.8} />
         </button>
