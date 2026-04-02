@@ -8,45 +8,50 @@ export default function GoldParallaxButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [gradientPos, setGradientPos] = useState(50);
   const [orientationActive, setOrientationActive] = useState(false);
-  const permissionAttempted = useRef(false);
 
-  // Request orientation permission on tap (iOS Safari requires user gesture)
-  const requestOrientationPermission = useCallback(async () => {
-    if (permissionAttempted.current) return;
-    permissionAttempted.current = true;
-
+  const tryActivateOrientation = useCallback(async () => {
+    if (orientationActive) return;
     try {
-      // Always try calling requestPermission — iOS Safari needs it
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = await (DeviceOrientationEvent as any).requestPermission();
-      if (result === "granted") {
+      const req = (DeviceOrientationEvent as any).requestPermission;
+      if (typeof req === "function") {
+        const result = await req();
+        if (result === "granted") setOrientationActive(true);
+      } else {
+        // No permission API — orientation events just work
         setOrientationActive(true);
       }
     } catch {
-      // requestPermission doesn't exist (non-iOS) or failed — just activate
       setOrientationActive(true);
     }
-  }, []);
+  }, [orientationActive]);
 
-  // On non-iOS devices, try activating immediately
   useEffect(() => {
-    // If we get an orientation event without requesting, we're on a non-iOS device
+    // Try immediately on mount (works in Capacitor WKWebView)
+    tryActivateOrientation();
+
+    // Also try on first touch (needed for iOS Safari user-gesture requirement)
+    function onFirstTouch() {
+      tryActivateOrientation();
+    }
+    document.addEventListener("touchstart", onFirstTouch, { once: true });
+
+    // Probe: if orientation events fire without permission, just activate
     function probe(e: DeviceOrientationEvent) {
-      if (e.gamma !== null) {
-        setOrientationActive(true);
-      }
+      if (e.gamma !== null) setOrientationActive(true);
       window.removeEventListener("deviceorientation", probe);
     }
     window.addEventListener("deviceorientation", probe);
-    // Clean up after 1s if no event fires (desktop with no sensor)
     const timer = setTimeout(() => {
       window.removeEventListener("deviceorientation", probe);
     }, 1000);
+
     return () => {
       clearTimeout(timer);
+      document.removeEventListener("touchstart", onFirstTouch);
       window.removeEventListener("deviceorientation", probe);
     };
-  }, []);
+  }, [tryActivateOrientation]);
 
   // Listen to device orientation once active
   useEffect(() => {
@@ -55,7 +60,7 @@ export default function GoldParallaxButton() {
     function handleOrientation(e: DeviceOrientationEvent) {
       const gamma = e.gamma ?? 0;
       const clamped = Math.max(-45, Math.min(45, gamma));
-      const pos = ((clamped + 45) / 90) * 100;
+      const pos = 100 - ((clamped + 45) / 90) * 100;
       setGradientPos(pos);
     }
 
@@ -80,13 +85,13 @@ export default function GoldParallaxButton() {
   const highlightCenter = gradientPos;
   const gradient = `linear-gradient(
     110deg,
-    #837A66 ${highlightCenter - 60}%,
-    #A99D85 ${highlightCenter - 30}%,
-    #D3C8B2 ${highlightCenter - 10}%,
-    #F1ECE2 ${highlightCenter}%,
-    #D3C8B2 ${highlightCenter + 10}%,
-    #A99D85 ${highlightCenter + 30}%,
-    #837A66 ${highlightCenter + 60}%
+    #7A6842 ${highlightCenter - 90}%,
+    #A08550 ${highlightCenter - 55}%,
+    #C4A865 ${highlightCenter - 25}%,
+    #E0D09A ${highlightCenter}%,
+    #C4A865 ${highlightCenter + 25}%,
+    #A08550 ${highlightCenter + 55}%,
+    #7A6842 ${highlightCenter + 90}%
   )`;
 
   return (
@@ -94,13 +99,13 @@ export default function GoldParallaxButton() {
       ref={buttonRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={() => { hapticMedium(); requestOrientationPermission(); }}
+      onClick={() => { hapticMedium(); tryActivateOrientation(); }}
       className="w-full flex items-center justify-center gap-2 px-4 py-3 active:brightness-90 transition-[filter] duration-100"
       style={{ background: gradient }}
     >
-      <Navigation size={18} strokeWidth={2} className="text-gold-800/70" />
-      <span className="text-[15px] font-semibold text-background drop-shadow-[0_1px_1px_rgba(0,0,0,0.15)]">
-        Get Directions
+      <Navigation size={18} strokeWidth={2} className="text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.15)]" />
+      <span className="text-[15px] font-semibold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.15)]">
+        Navigate
       </span>
     </button>
   );
