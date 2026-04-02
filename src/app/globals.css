@@ -1,56 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  /* OD Green surface palette */
-  --blue-25: #E2E8D5;
-  --blue-50: #C5CEAF;
-  --blue-100: #AAB68C;
-  --blue-200: #8E9C6A;
-  --blue-300: #74834D;
-  --blue-400: #5E6A35;
-  --blue-500: #4B5320;
-  --blue-600: #3A4218;
-  --blue-700: #2A3212;
-  --blue-800: #1C220C;
-  --blue-900: #111608;
-  --blue-950: #090C04;
+  /* Blue surface palette */
+  --blue-25: #EBF0F7;
+  --blue-50: #D6E1EE;
+  --blue-100: #B8CBDE;
+  --blue-200: #8AABC8;
+  --blue-300: #6088AD;
+  --blue-400: #436A92;
+  --blue-500: #2D4F74;
+  --blue-600: #1F3A5C;
+  --blue-700: #152D4A;
+  --blue-800: #0C1F38;
+  --blue-900: #061428;
+  --blue-950: #020B18;
 
-  /* Tan / khaki accent palette */
-  --gold-25: #FBF8F3;
-  --gold-50: #F5EDE0;
-  --gold-100: #EBDDCA;
-  --gold-200: #DECCB0;
-  --gold-300: #D2BA96;
-  --gold-400: #C2A87E;
-  --gold-500: #B09468;
-  --gold-600: #8E7650;
-  --gold-700: #6B5A3C;
-  --gold-800: #4A3E2A;
-  --gold-900: #2C2518;
+  /* Gold primary palette */
+  --gold-25: #FCFBF8;
+  --gold-50: #F8F5EF;
+  --gold-100: #F1ECE2;
+  --gold-200: #E8E1D3;
+  --gold-300: #DED5C3;
+  --gold-400: #D3C8B2;
+  --gold-500: #C7B99E;
+  --gold-600: #A99D85;
+  --gold-700: #837A66;
+  --gold-800: #5D5647;
+  --gold-900: #372F28;
 
-  /* Semantic - surfaces (OD green) */
-  --bg-primary: #090C04;
-  --bg-secondary: #111608;
-  --bg-tertiary: #1C220C;
-  --bg-elevated: #1C220C;
+  /* Semantic - surfaces (blue) */
+  --bg-primary: #020B18;
+  --bg-secondary: #061428;
+  --bg-tertiary: #0C1F38;
+  --bg-elevated: #0C1F38;
 
-  /* Semantic - primary interaction (tan) */
-  --primary: #B09468;
-  --primary-light: #D2BA96;
-  --primary-dark: #8E7650;
+  /* Semantic - primary interaction (gold) */
+  --primary: #C7B99E;
+  --primary-light: #DED5C3;
+  --primary-dark: #A99D85;
 
   /* System colors */
-  --ios-red: #CC3328;
-  --ios-orange: #C87A00;
-  --ios-green: #4A7A2E;
+  --ios-red: #FF3B30;
+  --ios-orange: #FF9500;
+  --ios-green: #34C759;
 
   /* Text */
-  --text-primary: #F0EBE0;
-  --text-secondary: #8A9A6E;
-  --text-tertiary: #4E5C38;
+  --text-primary: #FFFFFF;
+  --text-secondary: #7E95AC;
+  --text-tertiary: #3D5873;
 
   /* Separator */
-  --separator: rgba(210, 186, 150, 0.10);
+  --separator: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
@@ -84,9 +84,9 @@
 }
 
 body {
-  background: #060804;
+  background: #000000;
   color: var(--text-primary);
-  font-family: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior: none;

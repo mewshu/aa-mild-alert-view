@@ -185,8 +185,11 @@ export default function AlertDetail({
       transition={{ type: "spring", stiffness: 400, damping: 35 }}
       className="absolute inset-0 z-40 bg-background flex flex-col h-screen"
     >
+      {/* Status bar spacer */}
+      <div className="h-5 safe-area-top" />
+
       {/* Navigation bar */}
-      <div className="flex items-center gap-1 px-2 pb-2 pt-[env(safe-area-inset-top,20px)]">
+      <div className="flex items-center gap-1 px-2 pb-2">
         <button
           onClick={() => { onBack(); }}
           className="flex items-center gap-0.5 text-gold-500 active:text-gold-600 transition-colors px-2 py-2 -ml-1"
@@ -265,9 +268,7 @@ export default function AlertDetail({
         {/* Directions card */}
         <div className="px-4 pb-3">
           <div className="bg-bg-secondary rounded-2xl overflow-hidden">
-            <div className="p-2 pb-0">
-              <GoldParallaxButton />
-            </div>
+            <GoldParallaxButton />
             <div className="flex divide-x divide-separator">
               <button onClick={hapticLight} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 active:bg-gold-500/20 transition-colors">
                 <Navigation size={14} strokeWidth={2} className="text-gold-500" />

@@ -56,8 +56,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E12 Capt. Morales", time: "11:35", text: "Patient extricated. Conscious, leg injury. Setting up LZ for helo just in case." },
         ],
         nearestMarkers: [
-          { name: "Hydrant KM12-A", distance: "85 ft", color: "#CC3328" },
-          { name: "Staging Area North", distance: "320 ft", color: "#C87A00" },
+          { name: "Hydrant KM12-A", distance: "85 ft", color: "#FF3B30" },
+          { name: "Staging Area North", distance: "320 ft", color: "#FF9500" },
         ],
       },
       {
@@ -78,7 +78,7 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E5 FF Torres", time: "08:30", text: "Fire is in heavy brush, 30% contained. Requesting water tender to trail access gate." },
         ],
         nearestMarkers: [
-          { name: "Trail Access Gate", distance: "150 ft", color: "#4A7A2E" },
+          { name: "Trail Access Gate", distance: "150 ft", color: "#34C759" },
         ],
       },
     ],
@@ -130,11 +130,11 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "J. Muse", time: "09:56", text: "Confirmed delivery on all 3 devices. Overlay markers displaying correctly." },
         ],
         nearestMarkers: [
-          { name: "hello", distance: "204 ft", color: "#5E6A35" },
-          { name: "testing overlay", distance: "205 ft", color: "#4A7A2E" },
-          { name: "Ambo access", distance: "207 ft", color: "#4A7A2E" },
-          { name: "test", distance: "211 ft", color: "#CC3328" },
-          { name: "Lopez test 1", distance: "234 ft", color: "#C87A00" },
+          { name: "hello", distance: "204 ft", color: "#3478F6" },
+          { name: "testing overlay", distance: "205 ft", color: "#34C759" },
+          { name: "Ambo access", distance: "207 ft", color: "#34C759" },
+          { name: "test", distance: "211 ft", color: "#FF3B30" },
+          { name: "Lopez test 1", distance: "234 ft", color: "#FF9500" },
         ],
       },
       {
@@ -159,8 +159,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E7 Lt. Reeves", time: "14:18", text: "All clear on primary. Fire knocked down in bedroom of origin. Checking for extension." },
         ],
         nearestMarkers: [
-          { name: "Hydrant E2-7", distance: "110 ft", color: "#CC3328" },
-          { name: "FDC Connection", distance: "185 ft", color: "#C87A00" },
+          { name: "Hydrant E2-7", distance: "110 ft", color: "#FF3B30" },
+          { name: "FDC Connection", distance: "185 ft", color: "#FF9500" },
         ],
       },
       {
@@ -182,7 +182,7 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "M3 Paramedic Diaz", time: "14:52", text: "On scene. 12-lead showing ST elevation. Administering nitro. Transporting to Good Sam." },
         ],
         nearestMarkers: [
-          { name: "AED Location", distance: "45 ft", color: "#4A7A2E" },
+          { name: "AED Location", distance: "45 ft", color: "#34C759" },
         ],
       },
     ],
@@ -211,7 +211,7 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "Dispatch", time: "10:18", text: "Naturgy tech en route, ETA 20 min. Maintain perimeter until utility clears scene." },
         ],
         nearestMarkers: [
-          { name: "Gas Shutoff Valve", distance: "30 ft", color: "#C87A00" },
+          { name: "Gas Shutoff Valve", distance: "30 ft", color: "#FF9500" },
         ],
       },
       {
@@ -279,8 +279,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "BC1 Chief Herrera", time: "07:20", text: "Exposure protected. Fire darkening down. Collapse hazard — no entry. Requesting fire investigator." },
         ],
         nearestMarkers: [
-          { name: "Hydrant PI-12", distance: "200 ft", color: "#CC3328" },
-          { name: "Staging Lot B", distance: "450 ft", color: "#C87A00" },
+          { name: "Hydrant PI-12", distance: "200 ft", color: "#FF3B30" },
+          { name: "Staging Lot B", distance: "450 ft", color: "#FF9500" },
         ],
       },
       {
@@ -303,7 +303,7 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "Rescue 1 Lt. Vega", time: "16:35", text: "Patient retrieved. Hypothermic but conscious. Handing off to medics on bank." },
         ],
         nearestMarkers: [
-          { name: "Boat Launch", distance: "340 ft", color: "#5E6A35" },
+          { name: "Boat Launch", distance: "340 ft", color: "#3478F6" },
         ],
       },
     ],
@@ -357,7 +357,7 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E9 Lt. Novak", time: "22:25", text: "Readings clearing. Gas company shutting down furnace. Occupants cleared by medics — no transport needed." },
         ],
         nearestMarkers: [
-          { name: "Gas Meter", distance: "15 ft", color: "#C87A00" },
+          { name: "Gas Meter", distance: "15 ft", color: "#FF9500" },
         ],
       },
       {
@@ -406,8 +406,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "R3 Capt. Walsh", time: "17:52", text: "Patient freed. Packaging for transport to St. Elizabeth trauma center." },
         ],
         nearestMarkers: [
-          { name: "MM 142 Access", distance: "50 ft", color: "#4A7A2E" },
-          { name: "Median Crossover", distance: "800 ft", color: "#C87A00" },
+          { name: "MM 142 Access", distance: "50 ft", color: "#34C759" },
+          { name: "Median Crossover", distance: "800 ft", color: "#FF9500" },
         ],
       },
       {
@@ -428,8 +428,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E1 Lt. Park", time: "09:27", text: "On scene. Building evacuated. Investigating — no smoke, no heat. Appears to be accidental pull. Resetting system." },
         ],
         nearestMarkers: [
-          { name: "FDC - North Wing", distance: "120 ft", color: "#CC3328" },
-          { name: "Knox Box", distance: "8 ft", color: "#5E6A35" },
+          { name: "FDC - North Wing", distance: "120 ft", color: "#FF3B30" },
+          { name: "Knox Box", distance: "8 ft", color: "#3478F6" },
         ],
       },
       {
@@ -480,8 +480,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "HM1 Lt. Crawford", time: "13:50", text: "Flow contained before reaching drain. Approximately 200 gallons spilled. Air monitoring clear at perimeter." },
         ],
         nearestMarkers: [
-          { name: "Storm Drain", distance: "90 ft", color: "#CC3328" },
-          { name: "Creek Access", distance: "400 ft", color: "#5E6A35" },
+          { name: "Storm Drain", distance: "90 ft", color: "#FF3B30" },
+          { name: "Creek Access", distance: "400 ft", color: "#3478F6" },
         ],
       },
     ],
@@ -511,8 +511,8 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E14 Capt. Brennan", time: "06:10", text: "Barn is a total loss. Owner confirms 3 head of cattle were inside. No exposures threatened. Overhaul in progress." },
         ],
         nearestMarkers: [
-          { name: "Pond - Draft Site", distance: "180 ft", color: "#5E6A35" },
-          { name: "Driveway Gate", distance: "350 ft", color: "#4A7A2E" },
+          { name: "Pond - Draft Site", distance: "180 ft", color: "#3478F6" },
+          { name: "Driveway Gate", distance: "350 ft", color: "#34C759" },
         ],
       },
       {
@@ -533,7 +533,7 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "M5 Paramedic Torres", time: "12:22", text: "Patient responsive, epi effective. Administering Benadryl IV. Transporting to Franciscan for observation." },
         ],
         nearestMarkers: [
-          { name: "AED - Food Court", distance: "25 ft", color: "#4A7A2E" },
+          { name: "AED - Food Court", distance: "25 ft", color: "#34C759" },
         ],
       },
       {
@@ -674,8 +674,11 @@ export default function AlertsPage() {
 
   return (
     <div className="flex flex-col h-screen bg-background relative overflow-hidden">
+      {/* Status bar spacer */}
+      <div className="h-5 safe-area-top" />
+
       {/* Navigation bar */}
-      <div className="flex items-center justify-between px-4 pb-2 pt-[env(safe-area-inset-top,20px)]">
+      <div className="flex items-center justify-between px-4 pb-2">
         <div className="w-10" />
         <h1 className="text-[17px] font-semibold text-white">Alerts</h1>
         <button className="w-10 h-10 flex items-center justify-center text-gold-500">
