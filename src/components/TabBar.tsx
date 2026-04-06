@@ -29,7 +29,6 @@ const tabs: Tab[] = [
   {
     id: "chat",
     label: "Chat",
-    badge: 5,
     icon: <MessageSquare size={24} strokeWidth={1.8} />,
   },
   {
