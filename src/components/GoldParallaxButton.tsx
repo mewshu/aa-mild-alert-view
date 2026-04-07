@@ -7,58 +7,12 @@ import { hapticMedium } from "@/lib/haptics";
 export default function GoldParallaxButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [gradientPos, setGradientPos] = useState(50);
-  const [orientationActive, setOrientationActive] = useState(false);
 
-  const tryActivateOrientation = useCallback(async () => {
-    if (orientationActive) return;
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const req = (DeviceOrientationEvent as any).requestPermission;
-      if (typeof req === "function") {
-        const result = await req();
-        if (result === "granted") setOrientationActive(true);
-      } else {
-        // No permission API — orientation events just work
-        setOrientationActive(true);
-      }
-    } catch {
-      setOrientationActive(true);
-    }
-  }, [orientationActive]);
-
+  // Always listen for device orientation events
   useEffect(() => {
-    // Try immediately on mount (works in Capacitor WKWebView)
-    tryActivateOrientation();
-
-    // Also try on first touch (needed for iOS Safari user-gesture requirement)
-    function onFirstTouch() {
-      tryActivateOrientation();
-    }
-    document.addEventListener("touchstart", onFirstTouch, { once: true });
-
-    // Probe: if orientation events fire without permission, just activate
-    function probe(e: DeviceOrientationEvent) {
-      if (e.gamma !== null) setOrientationActive(true);
-      window.removeEventListener("deviceorientation", probe);
-    }
-    window.addEventListener("deviceorientation", probe);
-    const timer = setTimeout(() => {
-      window.removeEventListener("deviceorientation", probe);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener("touchstart", onFirstTouch);
-      window.removeEventListener("deviceorientation", probe);
-    };
-  }, [tryActivateOrientation]);
-
-  // Listen to device orientation once active
-  useEffect(() => {
-    if (!orientationActive) return;
-
     function handleOrientation(e: DeviceOrientationEvent) {
-      const gamma = e.gamma ?? 0;
+      if (e.gamma === null) return;
+      const gamma = e.gamma;
       const clamped = Math.max(-45, Math.min(45, gamma));
       const pos = 100 - ((clamped + 45) / 90) * 100;
       setGradientPos(pos);
@@ -66,7 +20,35 @@ export default function GoldParallaxButton() {
 
     window.addEventListener("deviceorientation", handleOrientation);
     return () => window.removeEventListener("deviceorientation", handleOrientation);
-  }, [orientationActive]);
+  }, []);
+
+  // Request permission on first touch (needed for iOS Safari)
+  useEffect(() => {
+    async function requestPermission() {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const req = (DeviceOrientationEvent as any).requestPermission;
+        if (typeof req === "function") {
+          await req();
+        }
+      } catch {
+        // Permission denied or not available — orientation events may still work
+      }
+    }
+
+    // Try immediately (works in Capacitor WKWebView)
+    requestPermission();
+
+    // Also try on first touch (iOS Safari user-gesture requirement)
+    function onFirstTouch() {
+      requestPermission();
+    }
+    document.addEventListener("touchstart", onFirstTouch, { once: true });
+
+    return () => {
+      document.removeEventListener("touchstart", onFirstTouch);
+    };
+  }, []);
 
   // Mouse movement for desktop fallback
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -99,12 +81,12 @@ export default function GoldParallaxButton() {
       ref={buttonRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={() => { hapticMedium(); tryActivateOrientation(); }}
+      onClick={hapticMedium}
       className="w-full flex items-center justify-center gap-2 px-4 py-3 active:brightness-90 transition-[filter] duration-100"
       style={{ background: gradient }}
     >
-      <Navigation size={18} strokeWidth={2} className="text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.15)]" />
-      <span className="text-[15px] font-semibold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.15)]">
+      <Navigation size={18} strokeWidth={2} className="text-black/80" />
+      <span className="text-[15px] font-semibold text-black/80">
         Navigate
       </span>
     </button>
