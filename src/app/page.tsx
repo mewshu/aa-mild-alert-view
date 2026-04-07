@@ -596,49 +596,52 @@ function PriorityIndicator({ priority }: { priority?: "high" | "medium" | "low" 
   return <span className={`w-2 h-2 rounded-full ${colors[priority]} shrink-0`} />;
 }
 
-function AlertRow({ alert, onTap }: { alert: Alert; onTap: () => void }) {
+function AlertRow({ alert, onTap, onChatTap }: { alert: Alert; onTap: () => void; onChatTap: () => void }) {
   return (
-    <motion.button
+    <motion.div
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ type: "spring", stiffness: 500, damping: 35 }}
-      onClick={onTap}
-      className="w-full px-4 py-3 flex items-start gap-3 active:bg-white/5 transition-colors text-left"
+      className="w-full px-4 py-3 flex items-start gap-3 text-left"
     >
-      <div className="mt-1.5">
-        <PriorityIndicator priority={alert.priority} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-[15px] font-semibold text-white leading-tight">
-          {alert.title}
-        </p>
-        <p className="text-[13px] text-text-secondary mt-0.5 leading-tight">
-          {alert.address}
-        </p>
-      </div>
-      <div className="text-right shrink-0">
-        <p className="text-[13px] text-text-secondary tabular-nums">
-          {alert.time}
-        </p>
-        <p className="text-[13px] text-text-secondary tabular-nums mt-0.5">
-          <span className="text-white font-medium">{alert.respondersOnScene}</span>
-          <span className="text-text-tertiary">/{alert.respondersTotal}</span>
-        </p>
-      </div>
-      <div className="mt-1 shrink-0 text-battalion-500">
+      <button onClick={onTap} className="flex-1 flex items-start gap-3 active:bg-white/5 transition-colors min-w-0 text-left">
+        <div className="mt-1.5">
+          <PriorityIndicator priority={alert.priority} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[15px] font-semibold text-white leading-tight">
+            {alert.title}
+          </p>
+          <p className="text-[13px] text-text-secondary mt-0.5 leading-tight">
+            {alert.address}
+          </p>
+        </div>
+        <div className="text-right shrink-0">
+          <p className="text-[13px] text-text-secondary tabular-nums">
+            {alert.time}
+          </p>
+          <p className="text-[13px] text-text-secondary tabular-nums mt-0.5">
+            <span className="text-white font-medium">{alert.respondersOnScene}</span>
+            <span className="text-text-tertiary">/{alert.respondersTotal}</span>
+          </p>
+        </div>
+      </button>
+      <button onClick={onChatTap} className="mt-1 shrink-0 text-battalion-500 active:text-gold-500 transition-colors p-1 -mr-1">
         <MessageSquare size={20} strokeWidth={1.8} />
-      </div>
-    </motion.button>
+      </button>
+    </motion.div>
   );
 }
 
 function AgencySection({
   agency,
   onAlertTap,
+  onChatTap,
 }: {
   agency: Agency;
   onAlertTap: (alert: Alert, agencyName: string) => void;
+  onChatTap: (alert: Alert, agencyName: string) => void;
 }) {
   const hasAlerts = agency.alerts.length > 0;
   const [expanded, setExpanded] = useState(hasAlerts);
@@ -681,6 +684,7 @@ function AgencySection({
                   key={alert.id}
                   alert={alert}
                   onTap={() => onAlertTap(alert, agency.name)}
+                  onChatTap={() => onChatTap(alert, agency.name)}
                 />
               ))}
             </div>
@@ -693,8 +697,15 @@ function AgencySection({
 
 export default function AlertsPage() {
   const [selectedAlert, setSelectedAlert] = useState<AlertDetailData | null>(null);
+  const [startWithChat, setStartWithChat] = useState(false);
 
   function handleAlertTap(alert: Alert, agencyName: string) {
+    setStartWithChat(false);
+    setSelectedAlert({ ...alert, agencyName });
+  }
+
+  function handleChatTap(alert: Alert, agencyName: string) {
+    setStartWithChat(true);
     setSelectedAlert({ ...alert, agencyName });
   }
 
@@ -728,19 +739,21 @@ export default function AlertsPage() {
               key={agency.id}
               agency={agency}
               onAlertTap={handleAlertTap}
+              onChatTap={handleChatTap}
             />
           ))}
         </div>
       </div>
 
       {/* Tab bar */}
-      <TabBar activeTab="alerts" />
+      {!selectedAlert && <TabBar activeTab="alerts" />}
 
       {/* Alert detail overlay */}
       <AnimatePresence>
         {selectedAlert && (
           <AlertDetail
             alert={selectedAlert}
+            initialChatOpen={startWithChat}
             onBack={() => setSelectedAlert(null)}
           />
         )}
