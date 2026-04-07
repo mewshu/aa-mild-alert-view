@@ -19,6 +19,7 @@ import {
   List,
   Zap,
   X,
+  Send,
 } from "lucide-react";
 import GoldParallaxButton from "./GoldParallaxButton";
 import { hapticLight, hapticMedium, hapticWarning } from "@/lib/haptics";
@@ -134,9 +135,11 @@ function MarkerDot({ color }: { color: string }) {
 export default function AlertDetail({
   alert,
   onBack,
+  initialChatOpen = false,
 }: {
   alert: AlertDetailData;
   onBack: () => void;
+  initialChatOpen?: boolean;
 }) {
   const [responseStep, setResponseStep] = useState<ResponseStep>("initial");
   const [declined, setDeclined] = useState(false);
@@ -145,7 +148,27 @@ export default function AlertDetail({
   const [viewMode, setViewMode] = useState<"details" | "response">("details");
   const [navPopupOpen, setNavPopupOpen] = useState(false);
   const [respondersSheetOpen, setRespondersSheetOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(initialChatOpen);
+  const [chatInput, setChatInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+
+  const [chatMessages, setChatMessages] = useState([
+    { id: 1, sender: "Dispatch", time: "2 min ago", text: "All units, be advised: caller reports smoke visible from the road.", isMe: false },
+    { id: 2, sender: "Engine 42", time: "2 min ago", text: "Engine 42 copy, we have visual on the smoke column. Approximately 1 mile out.", isMe: false },
+    { id: 3, sender: "You", time: "1 min ago", text: "Copy, responding from station. ETA 4 minutes.", isMe: true },
+    { id: 4, sender: "Battalion 7", time: "1 min ago", text: "Battalion 7 en route. Engine 42, give me a size-up on arrival.", isMe: false },
+    { id: 5, sender: "Engine 42", time: "just now", text: "On scene. Single story residential, smoke showing from the Charlie side. Establishing command.", isMe: false },
+  ]);
+
+  function sendChatMessage() {
+    const text = chatInput.trim();
+    if (!text) return;
+    hapticLight();
+    setChatMessages(prev => [...prev, { id: prev.length + 1, sender: "You", time: "just now", text, isMe: true }]);
+    setChatInput("");
+    setTimeout(() => chatScrollRef.current?.scrollTo({ top: chatScrollRef.current.scrollHeight, behavior: "smooth" }), 50);
+  }
 
   const isResponse = viewMode === "response";
 
@@ -424,7 +447,7 @@ export default function AlertDetail({
               </span>
               <ChevronRight size={16} strokeWidth={2} className="text-text-tertiary" />
             </button>
-            <button className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
+            <button onClick={() => { hapticLight(); setChatOpen(true); }} className="w-full flex items-center px-4 py-3 active:bg-white/5 transition-colors">
               <div className="flex items-center gap-3 flex-1">
                 <MessageSquare size={18} strokeWidth={2} className="text-gold-500" />
                 <span className="text-[15px] text-white font-medium">Alert Chat</span>
@@ -616,6 +639,74 @@ export default function AlertDetail({
                 )}
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Alert Chat overlay */}
+      <AnimatePresence>
+        {chatOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 400, damping: 35 }}
+            className="absolute inset-0 z-[60] bg-background flex flex-col"
+          >
+            {/* Status bar spacer */}
+            <div className="h-5 safe-area-top" />
+            {/* Chat nav bar */}
+            <div className="flex items-center gap-1 px-2 pb-2 border-b border-separator">
+              <button
+                onClick={() => { hapticLight(); setChatOpen(false); }}
+                className="flex items-center gap-0.5 text-gold-500 active:text-gold-600 transition-colors px-2 py-2 -ml-1"
+              >
+                <ChevronLeft size={20} strokeWidth={2} />
+                <span className="text-[15px]">Back</span>
+              </button>
+              <div className="flex-1 text-center">
+                <p className="text-[15px] font-semibold text-white">Alert Chat</p>
+                <p className="text-[11px] text-text-tertiary">{chatMessages.length} messages</p>
+              </div>
+              <div className="w-16" />
+            </div>
+            {/* Messages */}
+            <div ref={chatScrollRef} className="flex-1 min-h-0 overflow-y-auto px-4 py-4 flex flex-col gap-3">
+              {chatMessages.map((msg) => (
+                <div key={msg.id} className={`flex flex-col ${msg.isMe ? "items-end" : "items-start"}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`text-[11px] font-medium ${msg.isMe ? "text-gold-500" : "text-text-tertiary"}`}>{msg.sender}</span>
+                    <span className="text-[10px] text-text-tertiary">{msg.time}</span>
+                  </div>
+                  <div className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl ${
+                    msg.isMe
+                      ? "bg-gold-500 text-white rounded-br-md"
+                      : "bg-bg-secondary text-white rounded-bl-md"
+                  }`}>
+                    <p className="text-[14px] leading-relaxed">{msg.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Input bar */}
+            <div className="shrink-0 border-t border-separator px-4 pt-3 pb-3 safe-area-bottom bg-background">
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") sendChatMessage(); }}
+                  placeholder="Message..."
+                  className="flex-1 bg-bg-secondary text-white text-[15px] rounded-full px-4 py-2.5 placeholder:text-text-tertiary outline-none border border-separator focus:border-gold-500/50 transition-colors"
+                />
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={sendChatMessage}
+                  className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center active:bg-gold-600 transition-colors"
+                >
+                  <Send size={18} strokeWidth={2} className="text-white ml-0.5" />
+                </motion.button>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
