@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, Search, SquarePen, MessageSquare } from "lucide-react";
 import TabBar from "@/components/TabBar";
-import AlertDetail, { type AlertDetailData } from "@/components/AlertDetail";
+import AlertDetail, { type AlertDetailData, type Responder } from "@/components/AlertDetail";
 import { hapticLight } from "@/lib/haptics";
 
 type Alert = {
@@ -16,6 +16,7 @@ type Alert = {
   date: string;
   respondersOnScene: number;
   respondersTotal: number;
+  responders?: Responder[];
   priority?: "high" | "medium" | "low";
   source: string;
   alertNumber: string;
@@ -45,6 +46,20 @@ const MOCK_AGENCIES: Agency[] = [
         date: "Mar 18, 2026",
         respondersOnScene: 4,
         respondersTotal: 6,
+        responders: [
+          { name: "Capt. Morales", role: "E12 Captain", status: "On Scene" },
+          { name: "FF Garcia", role: "E12 Firefighter", status: "On Scene" },
+          { name: "FF Delgado", role: "E12 Firefighter", status: "On Scene" },
+          { name: "Paramedic Rios", role: "Medic 4", status: "On Scene" },
+          { name: "EMT Fuentes", role: "Medic 4", status: "On Scene" },
+          { name: "Lt. Vega", role: "Rescue 7", status: "On Scene" },
+          { name: "FF Sandoval", role: "Rescue 7", status: "On Scene" },
+          { name: "FF Ibarra", role: "Rescue 7", status: "En Route" },
+          { name: "Capt. Dominguez", role: "E8 Captain", status: "En Route" },
+          { name: "FF Lozano", role: "E8 Firefighter", status: "Responding" },
+          { name: "FF Montes", role: "E8 Firefighter", status: "Responding" },
+          { name: "Chief Salazar", role: "Battalion 2", status: "Staging" },
+        ],
         priority: "high",
         source: "CAD Dispatch (Saltillo Central)",
         alertNumber: "608401122",
@@ -54,6 +69,10 @@ const MOCK_AGENCIES: Agency[] = [
           { author: "E12 Capt. Morales", time: "11:28", text: "On scene. One vehicle on its side, second vehicle in ditch. Requesting extrication tools." },
           { author: "Dispatch", time: "11:31", text: "Medic 4 en route. ETA 6 min." },
           { author: "E12 Capt. Morales", time: "11:35", text: "Patient extricated. Conscious, leg injury. Setting up LZ for helo just in case." },
+          { author: "Dispatch", time: "11:38", text: "Air ambulance dispatched from base. ETA 12 min. LZ coordinates confirmed." },
+          { author: "Medic 4 Paramedic Rios", time: "11:41", text: "On scene. Patient stable, BP 130/85, pulse 92. Splinting left leg, starting IV." },
+          { author: "E12 Capt. Morales", time: "11:44", text: "Second vehicle driver refusing transport. Minor lacerations only. PD on scene for report." },
+          { author: "Dispatch", time: "11:48", text: "Helo 2 min out. Traffic control established on northbound lanes by PD." },
         ],
         nearestMarkers: [
           { name: "Hydrant KM12-A", distance: "85 ft", color: "#FF3B30" },
@@ -69,6 +88,13 @@ const MOCK_AGENCIES: Agency[] = [
         date: "Mar 18, 2026",
         respondersOnScene: 2,
         respondersTotal: 5,
+        responders: [
+          { name: "FF Torres", role: "E5 Firefighter", status: "On Scene" },
+          { name: "FF Reyes", role: "E5 Firefighter", status: "On Scene" },
+          { name: "Capt. Herrera", role: "E5 Captain", status: "En Route" },
+          { name: "FF Navarro", role: "WT3 Driver", status: "Responding" },
+          { name: "FF Cruz", role: "WT3 Firefighter", status: "Responding" },
+        ],
         priority: "medium",
         source: "Citizen Report (Active911 971500)",
         alertNumber: "608400815",
