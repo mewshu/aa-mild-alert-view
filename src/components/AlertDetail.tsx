@@ -594,6 +594,14 @@ export default function AlertDetail({
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", stiffness: 400, damping: 35 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0, bottom: 1 }}
+              onDragEnd={(_e, info) => {
+                if (info.offset.y > 100 || info.velocity.y > 300) {
+                  setRespondersSheetOpen(false);
+                }
+              }}
               className="relative bg-bg-secondary rounded-t-3xl w-full flex flex-col safe-area-bottom"
               style={{ height: "80vh" }}
             >

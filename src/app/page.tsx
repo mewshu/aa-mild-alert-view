@@ -605,7 +605,7 @@ function AlertRow({ alert, onTap, onChatTap }: { alert: Alert; onTap: () => void
       transition={{ type: "spring", stiffness: 500, damping: 35 }}
       className="w-full px-4 py-3 flex items-start gap-3 text-left"
     >
-      <button onClick={onTap} className="flex-1 flex items-start gap-3 active:bg-white/5 transition-colors min-w-0 text-left">
+      <button onClick={onTap} className="flex-1 flex items-start gap-3 active:bg-white/5 active:rounded-[8px] transition-colors min-w-0 text-left">
         <div className="mt-1.5">
           <PriorityIndicator priority={alert.priority} />
         </div>
